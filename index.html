@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Motivation App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            text-align: center;
+            background: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 100%;
+        }
+        .quote {
+            font-size: 24px;
+            margin: 20px 0;
+            color: #333;
+        }
+        .author {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: #555;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="quote" id="quote">Fetching a motivational quote...</div>
+        <div class="author" id="author"></div>
+        <button onclick="fetchQuote()">Get New Quote</button>
+    </div>
+
+    <script>
+        async function fetchQuote() {
+            try {
+                const response = await fetch('https://type.fit/api/quotes');
+                const data = await response.json();
+                const randomIndex = Math.floor(Math.random() * data.length);
+                const quote = data[randomIndex];
+                document.getElementById('quote').textContent = quote.text;
+                document.getElementById('author').textContent = `— ${quote.author || 'Unknown'}`;
+            } catch (error) {
+                document.getElementById('quote').textContent = 'Error fetching quote. Please try again later.';
+                document.getElementById('author').textContent = '';
+            }
+        }
+
+        // Fetch an initial quote when the page loads
+        fetchQuote();
+    </script>
+</body>
+</html>
